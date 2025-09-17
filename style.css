@@ -11,18 +11,16 @@
   display: flex;
   justify-content: space-between;
   margin-top: 1em;
+  position: relative;
 }
-.icon-btn {
+#icon-btn {
   border: none;
   background: none;
-  width: 30px;
-  height: 30px;
 }
-.icon-btn:hover {
-  background-color: rgb(247, 247, 247);
-  transition: 0.4s ease-in-out;
+#icon-btn:hover {
+  color: lightblue;
 }
-.icon-btn i {
+#icon-btn i {
   width: 100%;
 }
 .header ul {
@@ -50,13 +48,34 @@
   border: 1px solid rgb(50, 104, 145);
   font-weight: 700;
 }
+#input-box {
+  position: absolute;
+  left: 2em;
+  border: none;
+  border-bottom: 2px solid black;
+  display: none;
+  padding: 0 5px;
+}
+#input-btn {
+  position: absolute;
+  left: 17.4em;
+  border: none;
+  background-color: rgb(86, 123, 149);
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  width: 30px;
+  height: 26px;
+  border-radius: 3px;
+  display: none;
+}
+#input-btn:hover {
+  background-color: rgb(61, 87, 105);
+}
 .head-line {
   margin-top: 0.4em;
   display: flex;
   justify-content: center;
-}
-.head-line:hover {
-  cursor: pointer;
 }
 .head-line svg {
   width: 430px;
@@ -80,11 +99,13 @@
 }
 .news {
   border-bottom: 1.4px solid black;
+  padding: 10px 0;
 }
 
 @media (max-width:768px) {
   .container {
     max-width: 768px;
+    width: 100%;
   }
   .mobile-ver {
     display: flex;
@@ -94,6 +115,7 @@
   }
   .head-line {
     scale: 0.5;
+    width: 70%;
   }
   .header {
     margin: 0;
@@ -108,14 +130,14 @@
     color: black;
     border: none;
     padding: 0;
-  }
-  .header button:last-child {
     scale: 1.8;
     margin-right: 20px;
   }
-  .icon-btn {
+  #open-menus {
     width: auto;
     height: auto;
+    background: none;
+    border: none;
   }
   .mobile-ver {
     display: block;
@@ -125,5 +147,33 @@
     height: 60px;
     border-bottom: 1px solid #e2e2e2;
     margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.8em;
+    padding: 20px;
+  }
+  .date button {
+    width: 175px;
+    height: 32px;
+    font-size: 12px;
+    background: none;
+    border: 1px solid black;
+    border-radius: 3px;
+    line-height: 14px;
+    font-weight: bold;
+    margin-top: -6.8px;
+  }
+  .menus {
+    position: absolute;
+    background-color: #e2e2e2;
+    opacity: 0.95;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    top: 0;
+    width: 100%;
+    margin: 0 -12px;
+    display: none;
   }
 }
