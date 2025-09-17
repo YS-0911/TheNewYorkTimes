@@ -3,7 +3,7 @@
 const API_KEY = 'eb7d6a7c7ea74b33a9b317988f77e6b6';
 let news = [];
 const getLatestNews = async ()=>{
-  const url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?page=1&pageSize=20`);
+  const url = new URL(`https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`);
   // URL 인스턴스는 JS에서 필요한 함수와 변수들을 제공
   console.log(url);
   const response = await fetch(url);
