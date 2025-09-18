@@ -106,6 +106,24 @@
   text-align: center;
 }
 
+.page-num-btn {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+.pagination a {
+  border: none;
+  color: black;
+}
+.active>.page-link {
+  background-color: gray;
+  border-bottom: 2px solid black;
+}
+.pagination a:active {
+  background-color: gray;
+  color: white;
+}
+
 @media (max-width:768px) {
   .container {
     max-width: 768px;
