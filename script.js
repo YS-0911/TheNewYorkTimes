@@ -1,3 +1,9 @@
+const API_KEY = 'eb7d6a7c7ea74b33a9b317988f77e6b6';
+let urlSample1 = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
+// <= 원래 주소
+let urlSample2 = `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
+// <= 이걸로 주소 바꿔야함
+// api문서 확인하기: https://hackmd.io/@oW_dDxdsRoSpl0M64Tfg2g/B1D0H-JnT
 const inputBox = document.getElementById("input-box");
 const inputBtn = document.getElementById("input-btn");
 const iconBtn = document.getElementById("icon-btn");
@@ -10,6 +16,7 @@ iconBtn.addEventListener("click",()=>{
     inputBtn.style.display = "none";
   }
 });
+
 const menuArea = document.getElementById("menu");
 const openMenu = document.getElementById("open-menus");
 openMenu.addEventListener("click",()=>{
@@ -20,22 +27,38 @@ closeMenu.addEventListener("click",()=>{
   menuArea.style.display = "none";
 });
 
-// https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY} <= 원래 주소
-// https://noona-times-be-5ca9402f90d9.herokuapp.com/ <= 이걸로 주소 바꿔야함
-// api문서 확인하기: https://hackmd.io/@oW_dDxdsRoSpl0M64Tfg2g/B1D0H-JnT
-const API_KEY = 'eb7d6a7c7ea74b33a9b317988f77e6b6';
-let newsList = [];
-const getLatestNews = async ()=>{
-  const url = new URL(`https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&page=2&apiKey=${API_KEY}`);
-  // URL 인스턴스는 JS에서 필요한 함수와 변수들을 제공
-  console.log(url);
+const menus = document.querySelectorAll(".menus button")
+menus.forEach(menus=>menus.addEventListener("click",(event)=>{getNewsByCategory(event)}));
+
+const loadUrl=async(url)=>{
   const response = await fetch(url);
   const data = await response.json();
   newsList = data.articles;
-  console.log(newsList);
   render(); // newsList가 생기고 나서 함수 실행
 }
+
+let newsList = [];
+const getNewsByCategory=(event)=>{
+  const category = event.target.textContent.toLowerCase();
+  console.log(category);
+  const url = new URL(`${urlSample2}&category=${category}`);
+  loadUrl(url);
+}
+
+const getLatestNews =()=>{
+  const url = new URL(`${urlSample2}`);
+  // URL 인스턴스는 JS에서 필요한 함수와 변수들을 제공
+  console.log(url);
+  loadUrl(url);
+}
 getLatestNews();
+
+const getNewsByKeyword = () => {
+  const keyword = document.getElementById("input-box").value;
+  const url = new URL(`${urlSample2}&q=${keyword}`);
+  console.log(url);
+  loadUrl(url);
+}
 
 const render=()=>{
   let newsHTML = ``;
@@ -68,4 +91,3 @@ const date=()=>{
   document.getElementById("today").innerHTML = `${todayWeek}, ${today}`;
 }
 date();
-
