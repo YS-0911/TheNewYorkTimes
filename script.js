@@ -1,7 +1,15 @@
 const API_KEY = 'eb7d6a7c7ea74b33a9b317988f77e6b6';
-let urlSample1 = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${API_KEY}`
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
+
+let newsList = [];
+let currentUrl = null;
+
+let urlSample1 = `https://newsapi.org/v2/top-headlines?pageSize=${pageSize}&country=us&apiKey=${API_KEY}`
 // <= 원래 주소
-let urlSample2 = `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?country=us&apiKey=${API_KEY}`
+let urlSample2 = `https://noona-times-be-5ca9402f90d9.herokuapp.com/top-headlines?pageSize=${pageSize}&country=us&apiKey=${API_KEY}`
 // <= 이걸로 주소 바꿔야함
 // api문서 확인하기: https://hackmd.io/@oW_dDxdsRoSpl0M64Tfg2g/B1D0H-JnT
 const inputBox = document.getElementById("input-box");
@@ -16,14 +24,6 @@ iconBtn.addEventListener("click",()=>{
     inputBtn.style.display = "none";
   }
 });
-
-let totalResults = 0;
-let page = 1;
-const pageSize = 10;
-const groupSize = 5;
-
-let newsList = [];
-let currentUrl = null;
 
 const menuArea = document.getElementById("menu");
 const openMenu = document.getElementById("open-menus");
