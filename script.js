@@ -30,34 +30,40 @@ closeMenu.addEventListener("click",()=>{
 const menus = document.querySelectorAll(".menus button")
 menus.forEach(menus=>menus.addEventListener("click",(event)=>{getNewsByCategory(event)}));
 
-const loadUrl=async(url)=>{
-  const response = await fetch(url);
-  const data = await response.json();
-  newsList = data.articles;
-  render(); // newsList가 생기고 나서 함수 실행
+const getNews=async(url)=>{
+  try{
+    const response = await fetch(url);
+    const data = await response.json();
+    if(response.status == 200){
+      if(data.articles.length == 0) throw new Error("No matches for your search")
+      newsList = data.articles;
+      render(); // newsList가 생기고 나서 함수 실행
+    }else{
+      throw new Error(data.message);
+    }
+  }catch(error){
+    errorRender(error.message);
+  }
 }
 
 let newsList = [];
 const getNewsByCategory=(event)=>{
   const category = event.target.textContent.toLowerCase();
-  console.log(category);
   const url = new URL(`${urlSample2}&category=${category}`);
-  loadUrl(url);
+  getNews(url);
 }
 
 const getLatestNews =()=>{
   const url = new URL(`${urlSample2}`);
   // URL 인스턴스는 JS에서 필요한 함수와 변수들을 제공
-  console.log(url);
-  loadUrl(url);
+  getNews(url);
 }
 getLatestNews();
 
 const getNewsByKeyword = () => {
   const keyword = document.getElementById("input-box").value;
   const url = new URL(`${urlSample2}&q=${keyword}`);
-  console.log(url);
-  loadUrl(url);
+  getNews(url);
 }
 
 const render=()=>{
@@ -91,3 +97,13 @@ const date=()=>{
   document.getElementById("today").innerHTML = `${todayWeek}, ${today}`;
 }
 date();
+
+const errorRender=(errorMessage)=>{
+  const errorHtml = `
+    <div class="alert alert-danger error" role="alert">
+      ${errorMessage}
+    </div>
+  `;
+
+  document.getElementById("news-board").innerHTML = errorHtml;
+}

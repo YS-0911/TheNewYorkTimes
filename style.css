@@ -102,6 +102,10 @@
   padding: 10px 0;
 }
 
+.error {
+  text-align: center;
+}
+
 @media (max-width:768px) {
   .container {
     max-width: 768px;
