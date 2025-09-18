@@ -17,6 +17,14 @@ iconBtn.addEventListener("click",()=>{
   }
 });
 
+let totalResults = 0;
+let page = 1;
+const pageSize = 10;
+const groupSize = 5;
+
+let newsList = [];
+let currentUrl = null;
+
 const menuArea = document.getElementById("menu");
 const openMenu = document.getElementById("open-menus");
 openMenu.addEventListener("click",()=>{
@@ -32,12 +40,18 @@ menus.forEach(menus=>menus.addEventListener("click",(event)=>{getNewsByCategory(
 
 const getNews=async(url)=>{
   try{
-    const response = await fetch(url);
+    if(url) currentUrl = url;
+    currentUrl.searchParams.set("page",page); // -> &page=page
+
+    const response = await fetch(currentUrl);
     const data = await response.json();
+    console.log(data);
     if(response.status == 200){
-      if(data.articles.length == 0) throw new Error("No matches for your search")
+      if(data.articles.length == 0) throw new Error("No matches for your search");
       newsList = data.articles;
+      totalResults = data.totalResults;
       render(); // newsList가 생기고 나서 함수 실행
+      pagiNationRender();
     }else{
       throw new Error(data.message);
     }
@@ -46,8 +60,8 @@ const getNews=async(url)=>{
   }
 }
 
-let newsList = [];
 const getNewsByCategory=(event)=>{
+  page = 1;
   const category = event.target.textContent.toLowerCase();
   const url = new URL(`${urlSample2}&category=${category}`);
   getNews(url);
@@ -58,7 +72,6 @@ const getLatestNews =()=>{
   // URL 인스턴스는 JS에서 필요한 함수와 변수들을 제공
   getNews(url);
 }
-getLatestNews();
 
 const getNewsByKeyword = () => {
   const keyword = document.getElementById("input-box").value;
@@ -107,3 +120,46 @@ const errorRender=(errorMessage)=>{
 
   document.getElementById("news-board").innerHTML = errorHtml;
 }
+
+const pagiNationRender=()=>{
+  // totalPages
+  const totalPages = Math.ceil(totalResults / pageSize);
+  // pageGroup
+  const pageGroup = Math.ceil(page / groupSize);
+  // lastPage
+  let lastPage = pageGroup * groupSize;
+  if(lastPage > totalPages){
+    lastPage=totalPages;
+  }
+  // firstPage
+  const firstPage = lastPage - (groupSize - 1) <= 0 ? 1 : lastPage - (groupSize - 1);
+  
+  let pagiNationHTML = ``;
+
+  if(page != 1){
+    if(page > 2){
+      pagiNationHTML += `<li class="page-item"><a class="page-link" onclick="moveToPage(${1})" href="#"><i class="fa-solid fa-angles-left"></i></a></li>`;
+    }
+    pagiNationHTML += `<li class="page-item"><a class="page-link" onclick="moveToPage(${page-1})"   href="#"><i class="fa-solid fa-angle-left"></i></a></li>`;
+  }
+
+  for(let i=firstPage;i<=lastPage;i++){
+    pagiNationHTML+=`<li class="page-item ${i === page ? 'active' : ''}" onclick="moveToPage(${i})"><a class="page-link" href="#">${i}</a></li>`;
+  }
+  
+  if(page != lastPage){
+    pagiNationHTML += `<li class="page-item"><a class="page-link" onclick="moveToPage(${page+1})" href="#"><i class="fa-solid fa-angle-right"></i></a></li>`;
+    if(page < lastPage-1){
+      pagiNationHTML += `<li class="page-item"><a class="page-link" onclick="moveToPage(${lastPage})" href="#"><i class="fa-solid fa-angles-right"></i></a></li>`;
+    }
+  }
+
+  document.querySelector(".pagination").innerHTML = pagiNationHTML
+}
+
+const moveToPage=(pageNumber)=>{
+  page = pageNumber;
+  getNews();
+}
+
+getLatestNews();
