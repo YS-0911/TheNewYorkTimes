@@ -100,6 +100,8 @@
 .news {
   border-bottom: 1.4px solid black;
   padding: 10px 0;
+  width: 99%;
+  margin-left: 0px;
 }
 
 .error {
@@ -170,6 +172,10 @@
     cursor: pointer;
     margin: 0 auto;
   }
+  #menu {
+    position: fixed;
+    z-index: 10;
+  }
   .mobile-ver {
     display: block;
   }
@@ -206,5 +212,31 @@
     width: 100%;
     margin: 0 -12px;
     display: none;
+  }
+  .search-area {
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+    padding: 0;
+    gap: 10px;
+  }
+  #input-box-mo {
+    width: 50%;
+    height: 26px;
+    border: none;
+    border-radius: 3px;
+    border-bottom: 2px solid black;
+    padding: 0 5px;
+  }
+  #input-btn-mo {
+    border: none;
+    background-color: rgb(86, 123, 149);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 26px;
+    width: 40px;
+    height: 26px;
+    border-radius: 3px;
   }
 }

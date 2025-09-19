@@ -77,7 +77,23 @@ const getNewsByKeyword = () => {
   const keyword = document.getElementById("input-box").value;
   const url = new URL(`${urlSample2}&q=${keyword}`);
   getNews(url);
+
+  document.getElementById("input-box").value = "";
 }
+
+const getNewsByKeywordMo = () => {
+  const keyword = document.getElementById("input-box-mo").value;
+  const url = new URL(`${urlSample2}&q=${keyword}`);
+  getNews(url);
+
+  document.getElementById("input-box-mo").value = "";
+}
+
+document.getElementById("input-box").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    getNewsByKeyword();
+  }
+});
 
 const render=()=>{
   let newsHTML = ``;
